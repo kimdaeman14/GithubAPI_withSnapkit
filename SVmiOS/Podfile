@@ -1,0 +1,18 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'SVmiOS' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for SVmiOS
+
+  pod 'SnapKit'
+  pod 'Kingfisher'
+  pod 'SwiftyJSON'
+  pod 'Alamofire'
+  pod 'RxSwift'    
+  pod 'RxCocoa'
+  pod 'Then'
+
+end
