@@ -66,8 +66,8 @@ class UserInfoView: UIView {
         self.name.text = model.name
         self.userLocation.text = model.userLocation
         self.userCompany.text = model.userCompany
-        self.userFollowers.text = "follwers : \(model.userFollowers ?? "")"
-        self.userFollowing.text = "follwing : \(model.userFollowing ?? "")"
+        self.userFollowers.text = "follwers : \(model.userFollowers ?? 0)"
+        self.userFollowing.text = "follwing : \(model.userFollowing ?? 0)"
      }
 }
 

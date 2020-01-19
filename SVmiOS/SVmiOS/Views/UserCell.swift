@@ -38,7 +38,7 @@ class UserCell: UITableViewCell {
     
     func bind(model:User){
         self.userProfileImage.kf.setImage(with: URL(string: model.profileImageURL ?? ""))
-        self.userID.text = model.userID
+        self.userID.text = "\(model.userID ?? 0)"
         self.userName.text = model.userName
     }
 }

@@ -10,8 +10,8 @@
 struct UserRepository {
     var name:String?
     var description:String?
-    var stargazersCount:String?
-    var watchersCount:String?
+    var stargazersCount:Int?
+    var watchersCount:Int?
     var createdAt:String?
 }
 

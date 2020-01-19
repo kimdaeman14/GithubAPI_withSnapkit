@@ -12,6 +12,6 @@ struct UserInfo {
     var name:String?
     var userLocation:String?
     var userCompany:String?
-    var userFollowers:String?
-    var userFollowing:String?
+    var userFollowers:Int?
+    var userFollowing:Int?
 }

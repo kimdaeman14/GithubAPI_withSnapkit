@@ -29,6 +29,7 @@ class RepositoryCell: UITableViewCell {
         $0.font = .systemFont(ofSize: 10)
         $0.textColor = .black
         $0.numberOfLines = 3
+        $0.adjustsFontSizeToFitWidth = true
     }
     
     var repoStargazersCount = UILabel().then {
@@ -60,8 +61,8 @@ class RepositoryCell: UITableViewCell {
     func bind(repo: UserRepository){
         self.repoName.text = "repository_name : \(repo.name ?? "")"
         self.repoDescription.text = "description :\n\(repo.description ?? "")"
-        self.repoStargazersCount.text = "star : \(repo.stargazersCount ?? "")"
-        self.repoWatchersCount.text = "watcher : \(repo.watchersCount ?? "")"
+        self.repoStargazersCount.text = "star : \(repo.stargazersCount ?? 0)"
+        self.repoWatchersCount.text = "watcher : \(repo.watchersCount ?? 0)"
         self.repoCreatedAt.text = repo.createdAt
     }
     

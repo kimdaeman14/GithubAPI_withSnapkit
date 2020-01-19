@@ -9,6 +9,6 @@
 
 struct User {
     var profileImageURL:String?
-    var userID:String?
+    var userID:Int?
     var userName:String?
 }
