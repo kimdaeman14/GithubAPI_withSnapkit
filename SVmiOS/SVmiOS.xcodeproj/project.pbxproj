@@ -19,6 +19,7 @@
 		20D6048823D390460052564A /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D6048723D390460052564A /* UserRepository.swift */; };
 		20D604AD23D452410052564A /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D604AC23D452410052564A /* UserInfoView.swift */; };
 		20D604AF23D476E10052564A /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D604AE23D476E10052564A /* API.swift */; };
+		20D604B123D4B38E0052564A /* String+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D604B023D4B38E0052564A /* String+Extention.swift */; };
 		D40F3522254C2E5A122437D6 /* Pods_SVmiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2F7AD89556517B5B58D993 /* Pods_SVmiOS.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		20D6048723D390460052564A /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		20D604AC23D452410052564A /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		20D604AE23D476E10052564A /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		20D604B023D4B38E0052564A /* String+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extention.swift"; sourceTree = "<group>"; };
 		6059BFD7B3D35DEA82F26339 /* Pods-SVmiOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SVmiOS.release.xcconfig"; path = "Target Support Files/Pods-SVmiOS/Pods-SVmiOS.release.xcconfig"; sourceTree = "<group>"; };
 		DA2F7AD89556517B5B58D993 /* Pods_SVmiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SVmiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F76E4BC0D1F71449F3AFC6DF /* Pods-SVmiOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SVmiOS.debug.xcconfig"; path = "Target Support Files/Pods-SVmiOS/Pods-SVmiOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 				20D6048923D3908E0052564A /* Models */,
 				20D6047C23D385650052564A /* Supproting Files */,
 				20D604AE23D476E10052564A /* API.swift */,
+				20D604B023D4B38E0052564A /* String+Extention.swift */,
 			);
 			path = SVmiOS;
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				20D604AD23D452410052564A /* UserInfoView.swift in Sources */,
+				20D604B123D4B38E0052564A /* String+Extention.swift in Sources */,
 				20D6046D23D385080052564A /* ViewController.swift in Sources */,
 				20D6046923D385080052564A /* AppDelegate.swift in Sources */,
 				20D6048423D390190052564A /* User.swift in Sources */,

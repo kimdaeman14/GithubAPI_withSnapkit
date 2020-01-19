@@ -67,7 +67,7 @@ extension DetailViewController {
                                                              description: json["description"].string,
                                                              stargazersCount: json["stargazers_count"].int,
                                                              watchersCount: json["watchers_count"].int,
-                                                             createdAt: json["created_at"].string))
+                                                             createdAt: json["created_at"].string?.dateFormatted))
                         self.tableView.reloadData()
                     }
                 }catch{
@@ -142,4 +142,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate{
     }
     
 }
+
+
+
 
