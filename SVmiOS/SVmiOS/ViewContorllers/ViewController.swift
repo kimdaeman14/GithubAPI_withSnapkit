@@ -7,15 +7,22 @@ import SwiftyJSON
 
 class ViewController: UIViewController {
     
-    var didSetupConstraints = false
+    private var didSetupConstraints = false
     
-    let tableView: UITableView = {
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
         return tableView
     }()
     
-    var users: [User] = []
+    private var users: [User] = []
+    
+    private var refreshControl = UIRefreshControl()
+    
+    private var fetchingMore = false
+    
+    private var lastID = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,17 +36,19 @@ class ViewController: UIViewController {
 
 extension ViewController {
     
-    func initData(){
-        API.allUsers(0).responseData { response in
+    private func initData(){
+        API.allUsers(self.lastID).responseData { response in
             switch response.result{
             case .success(let data):
                 do{
                     let json = try JSON(data: data)
                     _ = json.map { str, json in
                         self.users.append(User(profileImageURL: json["avatar_url"].string,
-                                                   userID: json["id"].int,
-                                                   userName: json["login"].string))
+                                               userID: json["id"].int,
+                                               userName: json["login"].string))
+                        self.lastID = json["id"].int ?? 0
                         self.tableView.reloadData()
+                        self.fetchingMore = false
                     }
                 }catch{
                     print(error.localizedDescription)
@@ -53,9 +62,12 @@ extension ViewController {
 
 extension ViewController {
     
-    func initUI(){
+    private func initUI(){
         //        self.navigationController?.isNavigationBarHidden = true
         self.view.addSubview(self.tableView)
+        self.tableView.addSubview(refreshControl)
+        self.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Refreshing")
         view.setNeedsUpdateConstraints()
     }
     
@@ -69,11 +81,22 @@ extension ViewController {
         super.updateViewConstraints()
     }
     
-    func initTableView(){
+    private func initTableView(){
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.rowHeight = 110
         self.tableView.register(UserCell.self, forCellReuseIdentifier: UserCell.reuseIdentifier)
+        self.tableView.refreshControl = self.refreshControl
+    }
+    
+    
+    
+    @objc private func refresh(){
+        self.lastID = 0
+        self.users = []
+        self.initData()
+        self.refreshControl.endRefreshing()
+        
     }
 }
 
@@ -96,5 +119,28 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate{
     }
     
 }
+
+extension ViewController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        if offsetY > contentHeight - scrollView.frame.height * 2 {
+            if !fetchingMore {
+                beginBatchFetch()
+            }
+        }
+    }
+    
+    private func beginBatchFetch() {
+        fetchingMore = true
+        tableView.reloadSections(IndexSet(integer: 0), with: .bottom)
+        DispatchQueue.main.async {
+            self.initData()
+        }
+    }
+    
+}
+
+
 
 

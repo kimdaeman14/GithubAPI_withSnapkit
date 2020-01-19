@@ -12,17 +12,28 @@ import SwiftyJSON
 
 class DetailViewController: UIViewController {
     
-    var didSetupConstraints = false
+    private var didSetupConstraints = false
     
-    var selectedUserName:String?
+    public var selectedUserName:String?
     
-    let tableView = UITableView().then {
+    private let tableView = UITableView().then {
         $0.separatorStyle = .none
     }
     
-    var headerView = UserInfoView()
+    private var headerView = UserInfoView()
     
-    var userRepos: [UserRepository] = []
+    private var userRepos: [UserRepository] = []
+    
+    private var refreshControl = UIRefreshControl()
+
+    private var fetchingMore = false
+
+    private var lastPage = 1{
+        didSet{
+            print("lastPage : \(lastPage)")
+        }
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +46,7 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController {
     
-    func initData(){
+    private func initData(){
         API.profileInfo(selectedUserName ?? "").responseData { response in
             switch response.result{
             case .success(let data):
@@ -49,6 +60,7 @@ extension DetailViewController {
                                                              userFollowers: json["followers"].int,
                                                              userFollowing: json["following"].int))
                         self.tableView.reloadData()
+
                 }catch{
                     print(error.localizedDescription)
                 }
@@ -57,7 +69,7 @@ extension DetailViewController {
             }
         }
         
-        API.reposList(1, selectedUserName ?? "").responseData { response in
+        API.reposList(self.lastPage, selectedUserName ?? "").responseData { response in
             switch response.result{
             case .success(let data):
                 do{
@@ -69,6 +81,7 @@ extension DetailViewController {
                                                              watchersCount: json["watchers_count"].int,
                                                              createdAt: json["created_at"].string?.dateFormatted))
                         self.tableView.reloadData()
+                        self.fetchingMore = false
                     }
                 }catch{
                     print(error.localizedDescription)
@@ -83,9 +96,12 @@ extension DetailViewController {
         
     }
     
-    func initUI(){
+    private func initUI(){
         //        self.navigationController?.isNavigationBarHidden = true
         self.view.addSubview(self.tableView)
+        self.tableView.addSubview(refreshControl)
+               self.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+               self.refreshControl.attributedTitle = NSAttributedString(string: "Refreshing")
         view.setNeedsUpdateConstraints()
     }
     
@@ -99,14 +115,24 @@ extension DetailViewController {
         super.updateViewConstraints()
     }
     
-    func initTableView(){
+    private func initTableView(){
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.rowHeight = 110
         self.tableView.register(RepositoryCell.self, forCellReuseIdentifier: RepositoryCell.reuseIdentifier)
         self.tableView.tableHeaderView = headerView
+        self.tableView.refreshControl = self.refreshControl
+
         
     }
+    
+    @objc private func refresh(){
+         self.lastPage = 1
+         self.userRepos = []
+         self.initData()
+         self.refreshControl.endRefreshing()
+         
+     }
 }
 
 
@@ -142,6 +168,32 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate{
     }
     
 }
+
+
+
+extension DetailViewController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        if offsetY > contentHeight - scrollView.frame.height * 2 {
+            if !fetchingMore {
+                beginBatchFetch()
+            }
+        }
+    }
+    
+    private func beginBatchFetch() {
+        fetchingMore = true
+        tableView.reloadSections(IndexSet(integer: 0), with: .bottom)
+        DispatchQueue.main.async {
+            self.initData()
+            self.lastPage += 1
+        }
+    }
+    
+}
+
+
 
 
 
