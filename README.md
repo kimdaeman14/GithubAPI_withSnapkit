@@ -9,3 +9,4 @@
 - 역할: iOS 어플리케이션 100%담당
 - 관련기술: Swift, MVC, OnlyCode, Snapkit, SwiftyJSON, Then, Alamofire, Kingfisher
 - 자세한 설명은 이 [github 저장소](https://github.com/kimdaeman14/GithubAPI_withSnapkit)에 있습니다.
+- etc. 
